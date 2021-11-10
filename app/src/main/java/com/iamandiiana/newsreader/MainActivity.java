@@ -1,10 +1,10 @@
 package com.iamandiiana.newsreader;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
-import com.iamandiiana.newsreader.ui.main.MainFragment;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.iamandiiana.newsreader.feature.newslist.fragment.NewsListFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_activity);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, MainFragment.newInstance())
+                    .replace(R.id.container, NewsListFragment.newInstance())
                     .commitNow();
         }
     }
