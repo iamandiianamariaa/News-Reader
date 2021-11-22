@@ -20,17 +20,21 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class NewsListViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
 
+    private final static String LINK = "https://newsapi.org/";
+
     @NonNull
     public ObservableList<ArticleItemViewModel> newsList;
     public final SingleLiveEvent<Throwable> error;
 
     private final NewsRepository repo;
+    public final SingleLiveEvent<String> openLink;
 
     public NewsListViewModel(Application application, NewsRepository repo) {
         super(application);
         this.repo = repo;
         this.newsList = new ObservableArrayList();
         this.error = new SingleLiveEvent<>();
+        this.openLink = new SingleLiveEvent<>();
     }
 
     private void onNewsArticlesReceived(@NonNull List<ArticleItemViewModel> articles) {
@@ -52,6 +56,10 @@ public class NewsListViewModel extends AndroidViewModel implements DefaultLifecy
                         this::onNewsArticlesReceived,
                         this::onNewsArticlesError
                 );
+    }
+
+    public void onPoweredBySelected() {
+        openLink.setValue(LINK);
     }
 
 }
