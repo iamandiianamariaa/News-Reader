@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.iamandiiana.newsreader.databinding.NewsListFragmentBinding;
 import com.iamandiiana.newsreader.feature.newslist.model.NewsListViewModel;
+import com.iamandiiana.newsreader.feature.newslist.model.factory.ViewModelFactory;
 
 public class NewsListFragment extends Fragment {
 
@@ -36,7 +37,7 @@ public class NewsListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(NewsListViewModel.class);
+        mViewModel = new ViewModelProvider(this, new ViewModelFactory(requireActivity().getApplication())).get(NewsListViewModel.class);
 
         getLifecycle().addObserver(mViewModel);
     }

@@ -1,9 +1,10 @@
-package com.iamandiiana.newsreader;
+package com.iamandiiana.newsreader.feature.newslist;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.iamandiiana.newsreader.R;
 import com.iamandiiana.newsreader.feature.newslist.fragment.NewsListFragment;
 
 public class MainActivity extends AppCompatActivity {

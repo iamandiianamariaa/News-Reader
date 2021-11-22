@@ -1,33 +1,57 @@
 package com.iamandiiana.newsreader.feature.newslist.model;
 
+import android.annotation.SuppressLint;
+import android.app.Application;
+
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableList;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModel;
 
-public class NewsListViewModel extends ViewModel implements DefaultLifecycleObserver {
+import com.iamandiiana.data.NewsRepository;
+import com.iamandiiana.newsreader.feature.newslist.mapper.ListArticleToListViewModel;
+import com.iamandiiana.newsreader.feature.newslist.reactive.SingleLiveEvent;
 
-    private static final String imageUrl = "https://static01.nyt.com/images/2021/09/14/science/07CAT-STRIPES/07CAT-STRIPES-mediumSquareAt3X-v2.jpg";
+import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+
+public class NewsListViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
+
     @NonNull
     public ObservableList<ArticleItemViewModel> newsList;
+    public final SingleLiveEvent<Throwable> error;
 
-    public NewsListViewModel() {
+    private final NewsRepository repo;
+
+    public NewsListViewModel(Application application, NewsRepository repo) {
+        super(application);
+        this.repo = repo;
         this.newsList = new ObservableArrayList();
+        this.error = new SingleLiveEvent<>();
     }
 
+    private void onNewsArticlesReceived(@NonNull List<ArticleItemViewModel> articles) {
+        newsList.clear();
+        newsList.addAll(articles);
+    }
+
+    private void onNewsArticlesError(Throwable throwable) {
+        error.setValue(throwable);
+    }
+
+    @SuppressLint("CheckResult")
     @Override
     public void onCreate(LifecycleOwner owner) {
-
-        if (newsList.isEmpty()) {
-            newsList.add(new ArticleItemViewModel("title", "description", imageUrl));
-            newsList.add(new ArticleItemViewModel("title1", "description1", imageUrl));
-            newsList.add(new ArticleItemViewModel("title2", "description2", imageUrl));
-            newsList.add(new ArticleItemViewModel("title", "description", imageUrl));
-            newsList.add(new ArticleItemViewModel("title1", "description1", imageUrl));
-            newsList.add(new ArticleItemViewModel("title2", "description2", imageUrl));
-        }
+        repo.getNewsArticles()
+                .map(new ListArticleToListViewModel())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        this::onNewsArticlesReceived,
+                        this::onNewsArticlesError
+                );
     }
 
 }
