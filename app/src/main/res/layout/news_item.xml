@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:padding="10dp"
+            android:textAlignment="viewStart"
             android:text="@{viewModel.title}"
             android:textSize="20sp"
             android:textStyle="bold"
