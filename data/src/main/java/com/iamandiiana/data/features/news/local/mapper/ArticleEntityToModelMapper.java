@@ -14,7 +14,7 @@ public class ArticleEntityToModelMapper implements Function<List<ArticleEntity>,
     @Override
     public List<Article> apply(@NonNull List<ArticleEntity> articleEntities) {
         List<Article> articles = new ArrayList<>();
-        for(ArticleEntity a : articleEntities)
+        for (ArticleEntity a : articleEntities)
             articles.add(new Article(a.imageUrl, a.title, a.content, a.description));
         return articles;
     }

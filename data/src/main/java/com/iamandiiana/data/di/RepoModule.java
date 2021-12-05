@@ -31,7 +31,7 @@ public class RepoModule {
         return new NewsRepositoryImpl(provideNewsRemoteSource(), provideLocalDataStore());
     }
 
-    NewsLocalSource provideLocalDataStore(){
+    NewsLocalSource provideLocalDataStore() {
         NewsDatabase database = getInstance();
         return new NewsLocalSource(database.articleDao());
     }

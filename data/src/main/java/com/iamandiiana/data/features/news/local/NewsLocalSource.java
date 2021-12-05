@@ -22,7 +22,7 @@ public class NewsLocalSource {
         return dao.queryArticles().map(new ArticleEntityToModelMapper());
     }
 
-    public Completable saveArticle(ArticleEntity article){
+    public Completable saveArticle(ArticleEntity article) {
         return dao.insertArticle(article);
     }
 
