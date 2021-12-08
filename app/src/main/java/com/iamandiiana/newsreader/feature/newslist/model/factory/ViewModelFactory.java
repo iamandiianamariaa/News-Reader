@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.iamandiiana.data.NewsRepository;
-import com.iamandiiana.newsreader.DemoApplication;
+import com.iamandiiana.newsreader.NewsApplication;
 import com.iamandiiana.newsreader.feature.newslist.model.NewsListViewModel;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
@@ -21,7 +21,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     public <T extends ViewModel> T create(Class<T> modelClass) {
 
         if (modelClass.isAssignableFrom(NewsListViewModel.class)) {
-            NewsRepository repo = DemoApplication.getRepoProvider().provideNewsRepository();
+            NewsRepository repo = NewsApplication.getRepoProvider().provideNewsRepository();
             return (T) new NewsListViewModel(application, repo);
         }
 
